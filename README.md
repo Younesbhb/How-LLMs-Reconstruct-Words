@@ -9,13 +9,13 @@ Large Language Models process text as subword tokens. A word like *"unhappiness"
 | Probe | What it tests | Models |
 |-------|--------------|--------|
 | **k-NN Word vs Non-Word** | Whether hidden states separate real words from corrupted variants | LLaMA-2-7B |
-| **Single-Token Logit Lens** | Whether artificially split single-token words can be mapped back to their original embedding | LLaMA-2-7B |
-| **PatchScopes Decoding** | Whether multi-token words are preserved as latent lexical units beyond the tokenizer vocabulary | LLaMA-2-7B, OPT-1.3B, OpenLLaMA-3B |
+| **Single-Token Logit Lens** | After breaking a single-token word into pieces, can the model still recover the original word? | LLaMA-2-7B |
+| **PatchScopes Decoding** | Can the model regenerate a multi-token word from its internal representation? | LLaMA-2-7B, OPT-1.3B, OpenLLaMA-3B |
 
 ## Key Findings
 
 - **All models** develop strong "wordness" signals in mid-to-early layers (k-NN and PatchScopes)
-- **Single-token detokenization** via logit lens appears only in LLaMA-2-7B (peak 49.4% at layer 16) and is essentially absent in GPT-2 and OPT models
+- **Single-token detokenization** via logit lens appears only in LLaMA-2-7B (peak 49.4% at layer 16) and is essentially absent in GPT-2 and OPT models, suggesting this behavior may be architecture-specific
 - **PatchScopes on LLaMA-2-7B** yields 7.5% Success@1 vs. the 64% reported in the original paper, suggesting that the model's ability to recover full words depends heavily on how the experiment is set up
 - **OpenLLaMA-3B** achieved the highest PatchScopes Success@1 (48% at layer 3), with word-level information emerging particularly early
 
